@@ -6,7 +6,7 @@ on:
 
   pull_request:
     branches: [master]
-    types: [opened synchronize]
+    types: [opened, synchronize]
 
 jobs:
   deployment-pipeline:
@@ -40,7 +40,7 @@ jobs:
         env:
           TEST_MONGODB_URI: ${{secrets.TEST_MONGODB_URI}}
           SECRET: ${{secrets.SECRET}}
-        run: cypress-io/github-action@v2
+        uses : cypress-io/github-action@v2
           with:
             command: yarn test:e2e
             start: yarn start:test
