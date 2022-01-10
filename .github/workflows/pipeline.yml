@@ -44,7 +44,7 @@ jobs:
         with:
           command: yarn test:e2e
           start: yarn start:test
-          wait-on: http://localhost:3000
+          wait-on: http://localhost:3003
 
       - name: Deploy to Heroku
         if: ${{ github.event_name == 'push' }}
