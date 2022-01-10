@@ -1,4 +1,5 @@
 const Blog = require('../../models/blog');
+const User = require('../../models/user');
 
 const initialBlogs = [
   {
@@ -6,20 +7,23 @@ const initialBlogs = [
     author: 'Jeff Gordons',
     url: 'http://fake-url.com',
     likes: 23,
-    user: '6198e861d0c95b10bda01165',
   },
   {
     title: 'Metaverse, the future?',
     author: 'Satoshi Nakomoto',
     url: 'http://fake-url2035.com',
     likes: 106,
-    user: '6198e861d0c95b10bda01165',
   },
 ];
 
 const initDB = async () => {
+  const user = (await User.findOne({ username: 'Olowotemple' })).toJSON().id;
+
   await Blog.deleteMany({});
-  const promiseArr = initialBlogs.map((blog) => new Blog(blog).save());
+  const promiseArr = initialBlogs.map((blog) => {
+    blog.user = user;
+    return new Blog(blog).save();
+  });
   await Promise.all(promiseArr);
 };
 

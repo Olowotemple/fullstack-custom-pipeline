@@ -1,16 +1,25 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
-const {
-  initialBlogs,
-  initDB,
-  blogsInDb,
-} = require('../utils/tests/blog_helper');
+const blogHelper = require('../utils/tests/blog_helper');
+const userHelper = require('../utils/tests/user_helper');
 
 const api = supertest(app);
+let token;
+
+beforeAll(async () => {
+  await userHelper.initDB();
+  const baseURL = '/api/login';
+  const res = await api.post(`${baseURL}`).send({
+    username: 'Olowotemple',
+    password: '007',
+  });
+
+  token = res.body.token;
+});
 
 beforeEach(async () => {
-  await initDB();
+  await blogHelper.initDB();
 });
 
 describe('GET blogs', () => {
@@ -18,7 +27,7 @@ describe('GET blogs', () => {
 
   test('all blogs are returned', async () => {
     const res = await api.get(baseURL);
-    expect(res.body).toHaveLength(initialBlogs.length);
+    expect(res.body).toHaveLength(blogHelper.initialBlogs.length);
   });
 
   test('blogs are returned in JSON format', async () => {
@@ -46,17 +55,11 @@ describe('POST blogs', () => {
       likes: 292,
     };
 
-    await api
-      .post(baseURL)
-      .set(
-        'Authorization',
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9sb3dvdGVtcGxlIiwiaWQiOiI2MTlhNzY5NGU2ZDY1M2E5ZjBhNTY5ZmYiLCJpYXQiOjE2Mzc1MTgyNDF9.Vm_o56-0IPgsD-Xab2Vp6JPbkTL1sXwoC2vVP1EAXvE'
-      )
-      .send(blog);
+    await api.post(baseURL).set('Authorization', `Bearer ${token}`).send(blog);
 
-    const blogs = await blogsInDb();
+    const blogs = await blogHelper.blogsInDb();
     const blogTitles = blogs.map((blog) => blog.title);
-    expect(blogs).toHaveLength(initialBlogs.length + 1);
+    expect(blogs).toHaveLength(blogHelper.initialBlogs.length + 1);
     expect(blogTitles).toContain('Your Introduction to web 3.0');
   });
 
@@ -69,11 +72,9 @@ describe('POST blogs', () => {
 
     const res = await api
       .post(baseURL)
-      .set(
-        'Authorization',
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9sb3dvdGVtcGxlIiwiaWQiOiI2MTlhNzY5NGU2ZDY1M2E5ZjBhNTY5ZmYiLCJpYXQiOjE2Mzc1MTgyNDF9.Vm_o56-0IPgsD-Xab2Vp6JPbkTL1sXwoC2vVP1EAXvE'
-      )
+      .set('Authorization', `Bearer ${token}`)
       .send(blog);
+
     expect(res.body.likes).toBeDefined();
     expect(res.body.likes).toEqual(0);
   });
@@ -86,10 +87,7 @@ describe('POST blogs', () => {
 
     const res = await api
       .post(baseURL)
-      .set(
-        'Authorization',
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9sb3dvdGVtcGxlIiwiaWQiOiI2MTlhNzY5NGU2ZDY1M2E5ZjBhNTY5ZmYiLCJpYXQiOjE2Mzc1MTgyNDF9.Vm_o56-0IPgsD-Xab2Vp6JPbkTL1sXwoC2vVP1EAXvE'
-      )
+      .set('Authorization', `Bearer ${token}`)
       .send(blog);
     expect(res.status).toEqual(400);
   });
@@ -102,10 +100,7 @@ describe('POST blogs', () => {
 
     const res = await api
       .post(baseURL)
-      .set(
-        'Authorization',
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9sb3dvdGVtcGxlIiwiaWQiOiI2MTlhNzY5NGU2ZDY1M2E5ZjBhNTY5ZmYiLCJpYXQiOjE2Mzc1MTgyNDF9.Vm_o56-0IPgsD-Xab2Vp6JPbkTL1sXwoC2vVP1EAXvE'
-      )
+      .set('Authorization', `Bearer ${token}`)
       .send(blog);
     expect(res.status).toEqual(400);
   });
@@ -124,16 +119,14 @@ describe('POST blogs', () => {
 describe('DELETE blogs', () => {
   test('a single blog post can be deleted', async () => {
     const blogToDelete = (await api.get('/api/blogs')).body[0];
+
     const deleteRes = await api
       .delete(`/api/blogs/${blogToDelete.id}`)
-      .set(
-        'Authorization',
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik9sb3dvdGVtcGxlIiwiaWQiOiI2MTk4ZTg2MWQwYzk1YjEwYmRhMDExNjUiLCJpYXQiOjE2Mzc0NDc3OTN9.sKcW6CwH-MCtjCY8-KHzBYv9ploatC9BVfBar10OtPA'
-      );
+      .set('Authorization', `Bearer ${token}`);
     expect(deleteRes.status).toEqual(204);
 
-    const blogs = await blogsInDb();
-    expect(blogs).toHaveLength(initialBlogs.length - 1);
+    const blogs = await blogHelper.blogsInDb();
+    expect(blogs).toHaveLength(blogHelper.initialBlogs.length - 1);
 
     const blogTitles = blogs.map((blog) => blog.title);
     expect(blogTitles).not.toContain(blogToDelete.title);

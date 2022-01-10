@@ -2,7 +2,7 @@ GET http://localhost:3003/api/blogs
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRvYnkiLCJpZCI6IjYxOTgzYWQwZDNlNDMxNTI4NDI0MGYxZiIsImlhdCI6MTYzNzQxOTA1M30.UlTeGo4WTGPa9qYz5AZiujLJB9IK4hGDU-9Wh-eSf_8
 
 ###
-POST http://localhost:3001/api/blogs
+POST http://localhost:3003/api/blogs
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRvYnkiLCJpZCI6IjYxOTgzYWQwZDNlNDMxNTI4NDI0MGYxZiIsImlhdCI6MTYzNzQxOTA1M30.UlTeGo4WTGPa9qYz5AZiujLJB9IK4hGDU-9Wh-eSf_8
 

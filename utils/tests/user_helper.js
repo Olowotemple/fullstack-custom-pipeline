@@ -25,7 +25,7 @@ const initDB = async () => {
     }))
   );
   const promiseArr = initialUsersToSave.map((user) => new User(user).save());
-  await Promise.all(promiseArr);
+  return await Promise.all(promiseArr);
 };
 
 const usersInDb = async () => {
