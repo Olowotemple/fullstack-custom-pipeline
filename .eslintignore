@@ -1,0 +1,8 @@
+# Ignore the client source code
+client/
+
+# Ignore the generated build
+build/
+
+# Ignore node_modules/
+node_modules/

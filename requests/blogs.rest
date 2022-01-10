@@ -1,0 +1,39 @@
+GET http://localhost:3003/api/blogs
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRvYnkiLCJpZCI6IjYxOTgzYWQwZDNlNDMxNTI4NDI0MGYxZiIsImlhdCI6MTYzNzQxOTA1M30.UlTeGo4WTGPa9qYz5AZiujLJB9IK4hGDU-9Wh-eSf_8
+
+###
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRvYnkiLCJpZCI6IjYxOTgzYWQwZDNlNDMxNTI4NDI0MGYxZiIsImlhdCI6MTYzNzQxOTA1M30.UlTeGo4WTGPa9qYz5AZiujLJB9IK4hGDU-9Wh-eSf_8
+
+{
+  "title": "Introduction to Next.js 2022",
+  "author": "Catalin Pit",
+  "url": "http://fake-url2035.com",
+  "likes": 106
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRvYnkiLCJpZCI6IjYxOTgzYWQwZDNlNDMxNTI4NDI0MGYxZiIsImlhdCI6MTYzNzQxOTA1M30.UlTeGo4WTGPa9qYz5AZiujLJB9IK4hGDU-9Wh-eSf_8
+
+{
+  "title": "Your guide to investing",
+  "author": "Temple Olowonigba",
+  "url": "http://fake-url123.com",
+  "likes": 10076
+}
+
+###
+DELETE http://localhost:3001/api/blogs/61993bfcc9a72ae853a95cc7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRvYnkiLCJpZCI6IjYxOTgzYWQwZDNlNDMxNTI4NDI0MGYxZiIsImlhdCI6MTYzNzQxOTA1M30.UlTeGo4WTGPa9qYz5AZiujLJB9IK4hGDU-9Wh-eSf_8
+
+###
+POST http://localhost:3003/api/blogs/61a605a57d7a6fb2fbb93bab/comment
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRvYnkiLCJpZCI6IjYxOTgzYWQwZDNlNDMxNTI4NDI0MGYxZiIsImlhdCI6MTYzNzQxOTA1M30.UlTeGo4WTGPa9qYz5AZiujLJB9IK4hGDU-9Wh-eSf_8
+
+{
+  "comment": "I'm finna use this in my applications"
+}
