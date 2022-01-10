@@ -21,14 +21,14 @@
     "lint:ui": "cd client && yarn eslint",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand ./tests",
     "test:ui": "cd client && yarn test",
-    "test:e2e": "cd client && yarn cypress:run",
+    "test:e2e": "cd client && yarn test:e2e",
     "start": "cross-env NODE_ENV=production node index.js",
     "start:test": "cross-env NODE_ENV=test node index.js"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "eslint": "^8.6.0",
-    "jest": "^27.3.1",
+    "eslint": "^7.11.0",
+    "jest": "26.6.0",
     "nodemon": "^2.0.15",
     "supertest": "^6.1.6"
   },
