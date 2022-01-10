@@ -1,0 +1,67 @@
+name:
+
+on:
+  push:
+    branches: [master]
+
+  pull_request:
+    branches: [master]
+    types: [opened synchronize]
+
+jobs:
+  deployment-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.17.x'
+
+      - name: Install yarn globally
+        run: npm install --global yarn
+
+      - name: Install packages
+        run: yarn && yarn install:ui
+
+      - name: Lint
+        run: yarn lint && yarn lint:ui
+
+      - name: Build
+        run: yarn build
+
+      - name: Test
+        env:
+          TEST_MONGODB_URI: ${{secrets.TEST_MONGODB_URI}}
+          SECRET: ${{secrets.SECRET}}
+        run: yarn test && yarn test:ui
+
+      - name: Test:e2e
+        env:
+            TEST_MONGODB_URI: ${{secrets.TEST_MONGODB_URI}}
+            SECRET: ${{secrets.SECRET}}
+        run: cypress-io/github-action@v2
+          with:
+            command: yarn test:e2e
+            start: yarn start:test
+            wait-on: http://localhost:3000
+
+      - name: Deploy to Heroku
+      if: ${{ github.event_name == "push" }}
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "blogapp-552"
+          heroku_email: "olowotemple@yahoo.com"
+          healthcheck: "https://blogapp-552.herokuapp.com/health"
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+      - name: Bump version and push tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: 'patch'
+        uses: anothrNick/github-tag-action@1.36.0
