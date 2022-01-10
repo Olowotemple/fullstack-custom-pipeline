@@ -38,8 +38,8 @@ jobs:
 
       - name: Test:e2e
         env:
-            TEST_MONGODB_URI: ${{secrets.TEST_MONGODB_URI}}
-            SECRET: ${{secrets.SECRET}}
+          TEST_MONGODB_URI: ${{secrets.TEST_MONGODB_URI}}
+          SECRET: ${{secrets.SECRET}}
         run: cypress-io/github-action@v2
           with:
             command: yarn test:e2e
