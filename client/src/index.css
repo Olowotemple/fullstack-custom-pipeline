@@ -1,0 +1,103 @@
+.nav {
+  display: flex;
+  font-size: 1.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+.nav__item {
+  margin: 0 20px 0 0;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 10px 5px;
+}
+
+.nav__link {
+  color: black;
+}
+
+.App {
+  margin: 0 0 0 40px;
+}
+
+#create-new-blog {
+  text-transform: uppercase;
+  padding: 13px 5px;
+  background: transparent;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#create-new-blog:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.Blog {
+  width: 'max-content';
+  font-size: 1.5rem;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+
+.BlogForm {
+  width: max-content;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 0 40px 20px 40px;
+}
+
+.title {
+  margin-bottom: 7px;
+}
+
+.author {
+  margin-bottom: 7px;
+}
+
+.url {
+  margin-bottom: 7px;
+}
+
+#create-blog {
+  padding: 5px 2px;
+  text-transform: uppercase;
+}
+
+#cancel-button {
+  margin: 10px 0 0 40px;
+  padding: 5px 2px;
+  text-transform: uppercase;
+}
+
+.Blogview h1:first-child {
+  width: 29ch;
+  margin-bottom: 0;
+}
+
+.Blogview a:nth-child(2) {
+  display: inline-block;
+  margin-bottom: 15px;
+  width: 29ch;
+}
+
+.comment {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: max-content;
+  padding: 40px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+#comment {
+  margin-bottom: 10px;
+  height: 35px;
+}
+
+#add-comment {
+  width: max-content;
+  padding: 10px 5px;
+}
