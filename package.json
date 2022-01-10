@@ -17,7 +17,7 @@
     "build": "cd client && yarn && yarn build",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "install:ui": "cd client && yarn",
-    "lint": "eslint ./**/*.js",
+    "lint": "eslint ./**/*.{js,jsx}",
     "lint:ui": "cd client && yarn eslint",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand ./__tests__",
     "test:ui": "cd client && yarn test",
