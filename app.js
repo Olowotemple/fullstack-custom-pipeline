@@ -20,6 +20,7 @@ const app = express();
 })();
 
 app.use(cors());
+app.use(express.static('./client/build'));
 app.use(express.json());
 app.use(middleware.tokenExtractor);
 app.use('/api/blogs', blogsRouter);
