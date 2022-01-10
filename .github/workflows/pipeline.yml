@@ -34,7 +34,7 @@ jobs:
         env:
           TEST_MONGODB_URI: ${{secrets.TEST_MONGODB_URI}}
           SECRET: ${{secrets.SECRET}}
-        run: yarn test && yarn test:ui
+        run: yarn test
 
       - name: Test:e2e
         env:
