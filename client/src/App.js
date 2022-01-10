@@ -1,12 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useParams,
-} from 'react-router-dom';
+import { Routes, Route, Link, useParams } from 'react-router-dom';
 import Blog from './components/Blog';
 import Notification from './components/Notification';
 import Toggable from './components/Toggable';
@@ -21,7 +15,6 @@ import {
 import {
   createAddBlog,
   createAddComment,
-  createDeleteBlog,
   createInitBlogs,
   createLikeBlog,
 } from './reducers/blogReducer';
@@ -51,12 +44,12 @@ const App = () => {
     }
   }, []);
 
-  const deleteBlog = async (blog) => {
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      await blogService.deleteBlog(blog.id, user.token);
-      dispatch(createDeleteBlog(blog.id));
-    }
-  };
+  // const deleteBlog = async (blog) => {
+  //   if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+  //     await blogService.deleteBlog(blog.id, user.token);
+  //     dispatch(createDeleteBlog(blog.id));
+  //   }
+  // };
 
   const increaseLikes = async (id, blogObject) => {
     const blog = await blogService.update(id, blogObject);
@@ -134,66 +127,56 @@ const App = () => {
 
   return (
     <div className="App">
-      <Router>
-        <Menu />
-        <h1>/blog.app/</h1>
+      <Menu />
+      <h1>/blog.app/</h1>
 
-        <Notification
-          successStyle={{
-            color: 'green',
-            background: 'lightgrey',
-            fontSize: 20,
-            borderStyle: 'solid',
-            borderRadius: 5,
-            padding: 10,
-            marginBottom: 10,
-          }}
-          errorStyle={{
-            color: 'red',
-            background: 'lightgrey',
-            fontSize: 20,
-            borderStyle: 'solid',
-            borderRadius: 5,
-            padding: 10,
-            marginBottom: 10,
-          }}
-        />
+      <Notification
+        successStyle={{
+          color: 'green',
+          background: 'lightgrey',
+          fontSize: 20,
+          borderStyle: 'solid',
+          borderRadius: 5,
+          padding: 10,
+          marginBottom: 10,
+        }}
+        errorStyle={{
+          color: 'red',
+          background: 'lightgrey',
+          fontSize: 20,
+          borderStyle: 'solid',
+          borderRadius: 5,
+          padding: 10,
+          marginBottom: 10,
+        }}
+      />
 
-        <Routes>
-          <Route path="/">
-            <Route
-              index
-              element={
-                <Home
-                  blogFormRef={blogFormRef}
-                  increaseLikes={increaseLikes}
-                  deleteBlog={deleteBlog}
-                  addBlog={addBlog}
-                />
-              }
-            />
-            <Route path="users">
-              <Route index element={<Users />} />
-              <Route path=":userId" element={<User />} />
-            </Route>
-            <Route path="blogs">
-              <Route
-                path=":blogId"
-                element={<Blogview increaseLikes={increaseLikes} />}
-              />
-            </Route>
+      <Routes>
+        <Route path="/">
+          <Route
+            index
+            element={<Home blogFormRef={blogFormRef} addBlog={addBlog} />}
+          />
+          <Route path="users">
+            <Route index element={<Users />} />
+            <Route path=":userId" element={<User />} />
           </Route>
-        </Routes>
-      </Router>
+          <Route path="blogs">
+            <Route
+              path=":blogId"
+              element={<Blogview increaseLikes={increaseLikes} />}
+            />
+          </Route>
+        </Route>
+      </Routes>
     </div>
   );
 };
 
 export default App;
 
-const Home = ({ addBlog, blogFormRef, increaseLikes, deleteBlog }) => {
+const Home = ({ addBlog, blogFormRef }) => {
   const blogs = useSelector((state) => state.blogs);
-  const user = useSelector((state) => state.user);
 
   return (
     <div className="Home">
@@ -203,13 +186,7 @@ const Home = ({ addBlog, blogFormRef, increaseLikes, deleteBlog }) => {
 
       <ol className="blogs">
         {blogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            increaseLikes={increaseLikes}
-            deleteBlog={deleteBlog}
-            username={user.username}
-          />
+          <Blog key={blog.id} blog={blog} />
         ))}
       </ol>
     </div>
