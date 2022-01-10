@@ -14,7 +14,7 @@
     "mongoose-unique-validator": "^3.0.0"
   },
   "scripts": {
-    "build": "cd client && yarn build",
+    "build": "cd client && yarn && yarn build",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "install:ui": "cd client && yarn",
     "lint": "eslint ./**/*.js",
