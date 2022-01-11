@@ -25,7 +25,7 @@ jobs:
         run: yarn && yarn install:ui
 
       - name: Lint
-        run: yarn lint && yarn lint:ui
+        run: yarn lint
 
       - name: Build
         run: yarn build
