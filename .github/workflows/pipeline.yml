@@ -30,14 +30,6 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Examine Environment Variables
-        env:
-          TEST_MONGODB_URI: ${{secrets.TEST_MONGODB_URI}}
-          SECRET: ${{secrets.SECRET}}
-        run: |
-          echo "$TEST_MONGODB_URI"
-          echo "$SECRET"
-
       - name: Test
         env:
           TEST_MONGODB_URI: ${{secrets.TEST_MONGODB_URI}}
@@ -46,8 +38,10 @@ jobs:
 
       - name: Test:e2e
         env:
-          TEST_MONGODB_URI: ${{secrets.TEST_MONGODB_URI}}
+          PORT: ${{secrets.PORT}}
+          SALT_ROUNDS: ${{secrets.SALT_ROUNDS}}
           SECRET: ${{secrets.SECRET}}
+          TEST_MONGODB_URI: ${{secrets.TEST_MONGODB_URI}}
         uses: cypress-io/github-action@v2
         with:
           command: yarn test:e2e
